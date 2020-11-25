@@ -1,2 +1,2 @@
 export * from "./createState.dto";
-export * from "./fetchSomeStates.dto";
+export * from "./fetchAllStates.dto";

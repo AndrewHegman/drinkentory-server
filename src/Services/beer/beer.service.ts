@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
+import { Model } from "mongoose";
 import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto } from "src/Dto";
 import { Beer as BeerSchema, BeerDocument, Brewery as BrewerySchema, BreweryDocument } from "src/Schemas";
 import { BeerSortCol } from "src/Interfaces";

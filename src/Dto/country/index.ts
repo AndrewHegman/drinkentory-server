@@ -1,2 +1,2 @@
 export * from "./createCountry.dto";
-export * from "./fetchSomeCountries.dto";
+export * from "./fetchAllCountries.dto";

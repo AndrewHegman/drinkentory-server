@@ -22,3 +22,5 @@ export class Brewery {
 }
 
 export const BrewerySchema = SchemaFactory.createForClass(Brewery);
+
+export const expandFields = ["country", "state", "city"];

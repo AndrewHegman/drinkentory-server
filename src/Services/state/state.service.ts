@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { CreateStateDto } from "src/Dto";
+import { CreateStateDto, FetchAllStatesDto } from "src/Dto";
 import { StateSortCol } from "src/Interfaces";
 import { State as StateSchema, StateDocument } from "src/Schemas";
 
@@ -11,7 +11,8 @@ const defaultSortColumn: StateSortCol = "name";
 export class StateService {
   constructor(@InjectModel(StateSchema.name) private stateModel: Model<StateDocument>) {}
 
-  async findAll(sortCol: string): Promise<StateDocument[]> {
+  async findAll(query: FetchAllStatesDto): Promise<StateDocument[]> {
+    const { sortCol } = query;
     return this.stateModel.find().sort(sortCol).exec();
   }
 

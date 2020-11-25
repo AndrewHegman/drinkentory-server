@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { BreweryService } from "src/Services";
 import { FetchSomeBreweriesDto, CreateBreweryDto } from "src/Dto";
 import { BreweryDocument } from "src/Schemas";

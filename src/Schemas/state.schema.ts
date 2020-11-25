@@ -9,7 +9,7 @@ export class State {
   name: string;
 
   @Prop({ type: Types.ObjectId, ref: CountrySchema.name })
-  style: string;
+  country: string;
 }
 
 export const StateSchema = SchemaFactory.createForClass(State);
