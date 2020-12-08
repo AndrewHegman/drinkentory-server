@@ -1,4 +1,6 @@
-import { SortDir } from "src/Interfaces";
+import { SortDir, _SortCol } from "src/Interfaces";
+import { Model, Document, MongooseFilterQuery } from "mongoose";
+import { BaseFetchDto } from "src/Dto";
 
 export const processSortColumnAndDirection = <T>(sortCol: T, sortDir: SortDir, defaultSortColumn: T) => {
   let _sortCol = sortCol ? sortCol : defaultSortColumn;
@@ -12,21 +14,18 @@ export const processSortColumnAndDirection = <T>(sortCol: T, sortDir: SortDir, d
 
 export const isCurrentQuery = { quantity: { $gt: 0 } };
 
-// export const find = async <DTO, Document>(query: BaseFetchDto<DTO>, current: boolean): Promise<Document[]> => {
-//   const { sortCol, sortDir, offset, limit } = query;
+export const find = <DocType extends Document>(
+  model: Model<DocType, {}>,
+  defaultSortColumn: _SortCol<DocType>,
+  query: BaseFetchDto<DocType>,
+  expandFields: string[],
+  findConditions?: MongooseFilterQuery<DocType>) => {
 
-//   const _sortCol = processSortColumnAndDirection<BeerSortCol>(sortCol, sortDir, defaultSortColumn);
-
-//   return this.findAll(_sortCol);
-// };
-
-// async find(query: FetchSomeBeerDto, current: boolean): Promise<BeerDocument[]> {
-//   const { sortCol, sortDir, offset, limit } = query;
-
-//   const _sortCol = processSortColumnAndDirection<BeerSortCol>(sortCol, sortDir, defaultSortColumn);
-//   return this.beerModel
-//     .find({ quantity: { $gte: current ? 1 : 0 } })
-//     .sort(_sortCol)
-//     .populate(beerExpandFields)
-//     .exec();
-// }
+    const { sortCol, sortDir } = query;
+    const _sortCol = processSortColumnAndDirection<_SortCol<DocType>>(sortCol, sortDir, defaultSortColumn);
+    return model
+      .find(findConditions)
+      .sort(_sortCol)
+      .populate(expandFields)
+      .exec();
+}

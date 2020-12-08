@@ -2,6 +2,8 @@ import { Brewery, Beer, Style, Country, State, City } from "src/Schemas";
 
 export type SortDir = "asc" | "desc";
 
+export type _SortCol<DocType> = keyof DocType;
+
 export type BeerSortCol = keyof Beer;
 export const beerExpandFields = ["brewery", "style"];
 

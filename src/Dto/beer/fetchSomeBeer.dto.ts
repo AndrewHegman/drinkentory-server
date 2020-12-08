@@ -6,15 +6,15 @@ export class FetchSomeBeerDto extends BaseFetchDto<Beer> {
   /** Find all beer from specific brewery. */
   @IsOptional()
   // @IsMongoId()
-  brewery: string;
+  brewery?: string;
 
   /** Find all beer from specific style. */
   @IsOptional()
   @IsMongoId()
-  style: string;
+  style?: string;
 
   /** Find all beer from specific container. */
   @IsOptional()
   // @IsEnum(Container)
-  container: number;
+  container?: number;
 }

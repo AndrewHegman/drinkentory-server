@@ -4,3 +4,4 @@ export * from "./style";
 export * from "./country";
 export * from "./state";
 export * from "./city";
+export { BaseFetchDto } from './common';

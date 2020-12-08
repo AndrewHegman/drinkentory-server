@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put, Query } from "@nestjs/common";
 import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto } from "src/Dto";
 import { BeerDocument } from "src/Schemas";
-import { BeerService } from "src/Services/beer/beer.service";
+import { BeerService } from "src/Services";
 
 @Controller("beer")
 export class BeerController {

@@ -1,29 +1,24 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto } from "src/Dto";
-import { Beer as BeerSchema, BeerDocument, Brewery as BrewerySchema, BreweryDocument } from "src/Schemas";
-import { BeerSortCol, beerExpandFields } from "src/Interfaces";
-import { processSortColumnAndDirection } from "../common";
+import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto, BaseFetchDto } from "src/Dto";
+import { Beer as BeerModel, BeerDocument, Brewery as BreweryModel, BreweryDocument } from "src/Schemas";
+import { beerExpandFields } from "src/Interfaces";
+import { BeerSortCol } from "src/Interfaces";
+import { find } from "../common";
+
 
 const defaultSortColumn: BeerSortCol = "name";
 
 @Injectable()
 export class BeerService {
   constructor(
-    @InjectModel(BeerSchema.name) private beerModel: Model<BeerDocument>,
-    @InjectModel(BrewerySchema.name) private readonly breweryModel: Model<BreweryDocument>
+    @InjectModel(BeerModel.name) private beerModel: Model<BeerDocument>,
+    @InjectModel(BreweryModel.name) private readonly breweryModel: Model<BreweryDocument>
   ) {}
 
   async find(query: FetchSomeBeerDto, current: boolean): Promise<BeerDocument[]> {
-    const { sortCol, sortDir, offset, limit } = query;
-
-    const _sortCol = processSortColumnAndDirection<BeerSortCol>(sortCol, sortDir, defaultSortColumn);
-    return this.beerModel
-      .find({ quantity: { $gte: current ? 1 : 0 } })
-      .sort(_sortCol)
-      .populate(beerExpandFields)
-      .exec();
+    return find<BeerDocument>(this.beerModel, defaultSortColumn, query, beerExpandFields, { quantity: { $gte: current ? 1 : 0 } })
   }
 
   async findAll(sortCol: string): Promise<BeerDocument[]> {
