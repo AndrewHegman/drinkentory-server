@@ -1,9 +1,6 @@
 import { IsMongoId, IsNumberString, IsOptional, IsString } from "class-validator";
 
 export class CreateBreweryDto {
-  @IsMongoId()
-  _id: string;
-
   @IsString()
   name: string;
 

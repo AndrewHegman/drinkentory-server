@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
+import { City as CitySchema } from "./city.schema";
+import { Country as CountrySchema } from "./country.schema";
+import { State as StateSchema } from "./state.schema";
 
 export type BreweryDocument = Brewery & Document;
 
@@ -8,14 +11,14 @@ export class Brewery {
   @Prop()
   name: string;
 
-  @Prop()
-  country: string;
+  @Prop({ type: Types.ObjectId, ref: CountrySchema.name })
+  country: Types.ObjectId;
 
-  @Prop({ required: false })
-  state: string;
+  @Prop({ type: Types.ObjectId, ref: StateSchema.name })
+  state: Types.ObjectId;
 
-  @Prop({ required: false })
-  city: string;
+  @Prop({ type: Types.ObjectId, ref: CitySchema.name })
+  city: Types.ObjectId;
 
   @Prop()
   quantity: number;

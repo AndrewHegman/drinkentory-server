@@ -20,9 +20,4 @@ export class BaseFetchDto<Document> {
   @IsOptional()
   @IsString()
   sortDir: "asc" | "desc";
-
-  @IsOptional()
-  @IsString()
-  // @IsArray({ each: false })
-  expand: string;
 }

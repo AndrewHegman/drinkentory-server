@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { CreateStateDto, FetchAllStatesDto } from "src/Dto";
-import { StateSortCol } from "src/Interfaces";
+import { FetchAllStatesDto } from "src/Dto";
+import { stateExpandFields, StateSortCol } from "src/Interfaces";
 import { State as StateSchema, StateDocument } from "src/Schemas";
+import { processSortColumnAndDirection } from "../common";
 
 const defaultSortColumn: StateSortCol = "name";
 
@@ -13,15 +14,13 @@ export class StateService {
 
   async findAll(query: FetchAllStatesDto): Promise<StateDocument[]> {
     const { sortCol } = query;
-    return this.stateModel.find().sort(sortCol).exec();
+
+    const _sortCol = processSortColumnAndDirection<StateSortCol>(sortCol, null, defaultSortColumn);
+
+    return this.stateModel.find().sort(_sortCol).populate(stateExpandFields).exec();
   }
 
   async findOne(id: string): Promise<StateDocument> {
     return this.stateModel.findById(id).exec();
-  }
-
-  create(createStateDto: CreateStateDto) {
-    const newState = new this.stateModel(createStateDto);
-    return newState.save();
   }
 }

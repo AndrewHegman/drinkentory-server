@@ -2,9 +2,6 @@ import { IsEnum, IsMongoId, IsNumber, IsString } from "class-validator";
 import { Container } from "../../Interfaces";
 
 export class CreateBeerDto {
-  @IsMongoId()
-  _id: string;
-
   @IsString()
   name: string;
 

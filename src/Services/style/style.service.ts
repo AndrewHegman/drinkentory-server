@@ -5,7 +5,7 @@ import { Model } from "mongoose";
 import { StyleDocument } from "src/Schemas";
 import { CreateStyleDto, FetchSomeStylesDto } from "src/Dto";
 import { processSortColumnAndDirection } from "../common";
-import { StyleSortCol } from "src/Interfaces";
+import { styleExpandFields, StyleSortCol } from "src/Interfaces";
 
 const defaultSortColumn: StyleSortCol = "name";
 
@@ -13,10 +13,14 @@ const defaultSortColumn: StyleSortCol = "name";
 export class StyleService {
   constructor(@InjectModel(StyleSchema.name) private styleModel: Model<StyleDocument>) {}
 
-  async findAll(query: FetchSomeStylesDto): Promise<StyleDocument[]> {
+  async findAll(query: FetchSomeStylesDto, current?: boolean): Promise<StyleDocument[]> {
     const { sortCol, sortDir } = query;
     const _sortCol = processSortColumnAndDirection<StyleSortCol>(sortCol, sortDir, defaultSortColumn);
-    return this.styleModel.find().sort(_sortCol).exec();
+    return this.styleModel
+      .find({ quantity: { $gte: current ? 1 : 0 } })
+      .sort(_sortCol)
+      .populate(styleExpandFields)
+      .exec();
   }
 
   // async findSome(sortCol: string, offset: string, limit: string): Promise<StyleDocument[]> {

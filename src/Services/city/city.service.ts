@@ -2,8 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateCityDto, FetchAllCitiesDto } from "src/Dto";
-import { CitySortCol } from "src/Interfaces";
+import { cityExpandFields, CitySortCol } from "src/Interfaces";
 import { City as CitySchema, CityDocument } from "src/Schemas";
+import { processSortColumnAndDirection } from "../common";
 
 const defaultSortColumn: CitySortCol = "name";
 
@@ -13,7 +14,10 @@ export class CityService {
 
   async findAll(query: FetchAllCitiesDto): Promise<CityDocument[]> {
     const { sortCol } = query;
-    return this.cityModel.find().sort(sortCol).exec();
+
+    const _sortCol = processSortColumnAndDirection<CitySortCol>(sortCol, null, defaultSortColumn);
+    console.log(cityExpandFields);
+    return this.cityModel.find().sort(_sortCol).populate(cityExpandFields).exec();
   }
 
   async findOne(id: string): Promise<CityDocument> {

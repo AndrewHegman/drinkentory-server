@@ -23,7 +23,7 @@ export class Beer {
   brewery: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: StyleSchema.name })
-  style: string;
+  style: Types.ObjectId;
 
   @Prop()
   container: Container;

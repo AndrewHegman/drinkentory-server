@@ -19,3 +19,14 @@ export const isCurrentQuery = { quantity: { $gt: 0 } };
 
 //   return this.findAll(_sortCol);
 // };
+
+// async find(query: FetchSomeBeerDto, current: boolean): Promise<BeerDocument[]> {
+//   const { sortCol, sortDir, offset, limit } = query;
+
+//   const _sortCol = processSortColumnAndDirection<BeerSortCol>(sortCol, sortDir, defaultSortColumn);
+//   return this.beerModel
+//     .find({ quantity: { $gte: current ? 1 : 0 } })
+//     .sort(_sortCol)
+//     .populate(beerExpandFields)
+//     .exec();
+// }

@@ -5,7 +5,7 @@ import { Model } from "mongoose";
 import { BreweryDocument } from "src/Schemas";
 import { CreateBreweryDto, FetchSomeBreweriesDto } from "src/Dto";
 import { processSortColumnAndDirection } from "../common";
-import { BrewerySortCol } from "src/Interfaces";
+import { breweryExpandFields, BrewerySortCol } from "src/Interfaces";
 
 const defaultSortColumn: BrewerySortCol = "name";
 
@@ -18,9 +18,11 @@ export class BreweryService {
 
     const _sortCol = processSortColumnAndDirection<BrewerySortCol>(sortCol, sortDir, defaultSortColumn);
 
-    return this.findAll(_sortCol);
-
-    // return this.findSome(_sortCol, limit, offset);
+    return this.breweryModel
+      .find({ quantity: { $gte: current ? 1 : 0 } })
+      .sort(_sortCol)
+      .populate(breweryExpandFields)
+      .exec();
   }
 
   async findAll(sortCol: string): Promise<BreweryDocument[]> {

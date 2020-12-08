@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto } from "src/Dto";
 import { Beer as BeerSchema, BeerDocument, Brewery as BrewerySchema, BreweryDocument } from "src/Schemas";
-import { BeerSortCol } from "src/Interfaces";
+import { BeerSortCol, beerExpandFields } from "src/Interfaces";
 import { processSortColumnAndDirection } from "../common";
 
 const defaultSortColumn: BeerSortCol = "name";
@@ -22,7 +22,7 @@ export class BeerService {
     return this.beerModel
       .find({ quantity: { $gte: current ? 1 : 0 } })
       .sort(_sortCol)
-      .populate(query.expand.replace(",", " "))
+      .populate(beerExpandFields)
       .exec();
   }
 

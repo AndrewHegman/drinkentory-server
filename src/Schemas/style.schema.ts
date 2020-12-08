@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export type StyleDocument = Style & Document;
 
@@ -12,7 +12,7 @@ export class Style {
   quantity: number;
 
   @Prop()
-  baseStyle: string;
+  baseStyle: Types.ObjectId;
 }
 
 export const StyleSchema = SchemaFactory.createForClass(Style);

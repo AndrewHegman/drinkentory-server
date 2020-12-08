@@ -12,6 +12,11 @@ export class BeerController {
     return this.beerService.find(query, false);
   }
 
+  @Get("/current")
+  async findCurrent(@Query() query: FetchSomeBeerDto): Promise<BeerDocument[]> {
+    return this.beerService.find(query, true);
+  }
+
   @Get(":id")
   async findOne(@Param("id") id: string): Promise<BeerDocument> {
     return this.beerService.findOne(id);
