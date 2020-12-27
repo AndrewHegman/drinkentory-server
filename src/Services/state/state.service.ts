@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { FetchAllStatesDto } from "src/Dto";
+import { CreateStateDto, FetchAllStatesDto } from "src/Dto";
 import { stateExpandFields, StateSortCol } from "src/Interfaces";
 import { State as StateSchema, StateDocument } from "src/Schemas";
 import { processSortColumnAndDirection } from "../common";
@@ -22,5 +22,10 @@ export class StateService {
 
   async findOne(id: string): Promise<StateDocument> {
     return this.stateModel.findById(id).exec();
+  }
+
+  async create(createStateDto: CreateStateDto) {
+    const newCountry = new this.stateModel(createStateDto);
+    return newCountry.save();
   }
 }

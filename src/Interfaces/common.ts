@@ -1,4 +1,4 @@
-import { Brewery, Beer, Style, Country, State, City } from "src/Schemas";
+import { Brewery, Beer, Style, Country, State, Place } from "src/Schemas";
 
 export type SortDir = "asc" | "desc";
 
@@ -19,5 +19,4 @@ export const countryExpandFields = [];
 export type StateSortCol = keyof State;
 export const stateExpandFields = ["country"];
 
-export type CitySortCol = keyof City;
-export const cityExpandFields = ["state"];
+export type PlaceSortCol = keyof Omit<Place, "country" | "state">;

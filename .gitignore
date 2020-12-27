@@ -6,3 +6,7 @@ node_modules
 
 # Ignore built ts files
 dist/**/*
+
+_cacache
+_locks
+_logs
