@@ -3,18 +3,8 @@ import { Brewery } from "src/Schemas";
 import { BaseFetchDto } from "../common";
 
 export class FetchSomeBreweriesDto extends BaseFetchDto<Brewery> {
-  /** List all breweries from a specific country. */
-  @IsOptional()
-  // @IsEnum()
-  country: string;
-
-  /** List all breweries from a specific state. */
+  /** List all breweries from a specific 'place'. */
   @IsOptional()
   @IsMongoId()
-  state: string;
-
-  /** List all breweries from a specific city. */
-  @IsOptional()
-  @IsMongoId()
-  city: string;
+  place: string;
 }

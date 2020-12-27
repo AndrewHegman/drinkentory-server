@@ -5,15 +5,7 @@ export class CreateBreweryDto {
   name: string;
 
   @IsMongoId()
-  country: string;
-
-  @IsMongoId()
-  @IsOptional()
-  state: string;
-
-  @IsMongoId()
-  @IsOptional()
-  city: string;
+  place: string;
 
   @IsNumberString()
   quantity: number;

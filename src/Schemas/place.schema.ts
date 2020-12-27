@@ -1,9 +1,18 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
-import { Country, CountrySchema } from "./country.schema";
-import { State, StateSchema } from "./state.schema";
+import { Document, Types } from "mongoose";
 
 export type PlaceDocument = Place & Document;
+
+export type Country = {
+  name: string;
+  placesId: string;
+};
+
+export type State = {
+  name: string;
+  country: Types.ObjectId;
+  placeId: string;
+};
 
 @Schema({ collection: "places" })
 export class Place {
@@ -13,10 +22,10 @@ export class Place {
   @Prop()
   placesId: string;
 
-  @Prop({ type: CountrySchema, required: true })
+  @Prop()
   country: Country;
 
-  @Prop({ type: StateSchema, required: false })
+  @Prop()
   state: State;
 }
 
