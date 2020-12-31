@@ -25,11 +25,7 @@ export class PlaceService {
   }
 
   create(addNewPlace: AddPlaceDto) {
-    console.log(addNewPlace);
     const newPlace = new this.placeModel(addNewPlace);
-    const result = newPlace.save();
-    console.log(result);
-    return result;
-    // return newPlace.save();
+    return newPlace.save();
   }
 }

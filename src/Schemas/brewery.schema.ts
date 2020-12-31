@@ -11,9 +11,6 @@ export class Brewery {
 
   @Prop({ type: Types.ObjectId, ref: PlaceSchema.name })
   place: Types.ObjectId;
-
-  @Prop()
-  quantity: number;
 }
 
 export const BrewerySchema = SchemaFactory.createForClass(Brewery);

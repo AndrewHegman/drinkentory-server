@@ -3,15 +3,14 @@ import { Document, Types } from "mongoose";
 
 export type StyleDocument = Style & Document;
 
-@Schema({ collection: "styles" })
+const schemaName = "styles";
+
+@Schema({ collection: schemaName })
 export class Style {
   @Prop()
   name: string;
 
-  @Prop()
-  quantity: number;
-
-  @Prop()
+  @Prop({ required: false })
   baseStyle: Types.ObjectId;
 }
 

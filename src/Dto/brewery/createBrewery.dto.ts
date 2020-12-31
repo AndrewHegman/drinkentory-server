@@ -6,7 +6,4 @@ export class CreateBreweryDto {
 
   @IsMongoId()
   place: string;
-
-  @IsNumberString()
-  quantity: number;
 }

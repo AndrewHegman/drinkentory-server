@@ -16,11 +16,7 @@ export class StyleService {
   async findAll(query: FetchSomeStylesDto, current?: boolean): Promise<StyleDocument[]> {
     const { sortCol, sortDir } = query;
     const _sortCol = processSortColumnAndDirection<StyleSortCol>(sortCol, sortDir, defaultSortColumn);
-    return this.styleModel
-      .find({ quantity: { $gte: current ? 1 : 0 } })
-      .sort(_sortCol)
-      .populate(styleExpandFields)
-      .exec();
+    return this.styleModel.find().sort(_sortCol).populate(styleExpandFields).exec();
   }
 
   // async findSome(sortCol: string, offset: string, limit: string): Promise<StyleDocument[]> {

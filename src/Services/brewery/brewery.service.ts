@@ -18,11 +18,7 @@ export class BreweryService {
 
     const _sortCol = processSortColumnAndDirection<BrewerySortCol>(sortCol, sortDir, defaultSortColumn);
 
-    return this.breweryModel
-      .find({ quantity: { $gte: current ? 1 : 0 } })
-      .sort(_sortCol)
-      .populate(breweryExpandFields)
-      .exec();
+    return this.breweryModel.find().sort(_sortCol).populate(breweryExpandFields).exec();
   }
 
   async findAll(sortCol: string): Promise<BreweryDocument[]> {

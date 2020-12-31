@@ -1,15 +1,10 @@
-import { IsBoolean, IsMongoId, IsNumberString, IsString } from "class-validator";
+import { IsBoolean, IsMongoId, IsNumberString, IsOptional, IsString } from "class-validator";
 
 export class CreateStyleDto {
-  @IsMongoId()
-  _id: string;
-
   @IsString()
   name: string;
 
   @IsMongoId()
+  @IsOptional()
   baseStyle: string;
-
-  @IsNumberString()
-  quantity: number;
 }

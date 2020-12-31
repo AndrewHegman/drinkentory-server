@@ -6,5 +6,5 @@ export class UpdateBeerDto {
 
   @IsNumber()
   @IsOptional()
-  historicQuantity: number;
+  historicQuantity?: number;
 }

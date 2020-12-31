@@ -7,7 +7,6 @@ import { beerExpandFields } from "src/Interfaces";
 import { BeerSortCol } from "src/Interfaces";
 import { find } from "../common";
 
-
 const defaultSortColumn: BeerSortCol = "name";
 
 @Injectable()
@@ -18,7 +17,7 @@ export class BeerService {
   ) {}
 
   async find(query: FetchSomeBeerDto, current: boolean): Promise<BeerDocument[]> {
-    return find<BeerDocument>(this.beerModel, defaultSortColumn, query, beerExpandFields, { quantity: { $gte: current ? 1 : 0 } })
+    return find<BeerDocument>(this.beerModel, defaultSortColumn, query, beerExpandFields, { quantity: { $gte: current ? 1 : 0 } });
   }
 
   async findAll(sortCol: string): Promise<BeerDocument[]> {
@@ -39,9 +38,14 @@ export class BeerService {
   }
 
   async update(id: string, updateBeerDto: UpdateBeerDto) {
-    return this.beerModel
-      .findByIdAndUpdate(id, { quantity: updateBeerDto.quantity, historicQuantity: updateBeerDto.historicQuantity }, { new: true })
-      .populate("brewery style")
-      .exec();
+    let updatedDocument: UpdateBeerDto = {
+      quantity: updateBeerDto.quantity,
+    };
+
+    if (updateBeerDto.historicQuantity) {
+      updatedDocument.historicQuantity = updateBeerDto.historicQuantity;
+    }
+
+    return this.beerModel.findByIdAndUpdate(id, updatedDocument, { new: true }).populate(beerExpandFields).exec();
   }
 }
