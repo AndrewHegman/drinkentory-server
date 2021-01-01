@@ -14,6 +14,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   mongoose.set("debug", process.env.MODE === "development");
-  await app.listen(3002);
+  await app.listen(process.env.PORT || 3002);
 }
 bootstrap();
