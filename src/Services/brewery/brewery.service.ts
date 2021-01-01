@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Brewery as BrewerySchema } from "src/Schemas";
+import { Brewery as BrweeryModel } from "src/Schemas";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { BreweryDocument } from "src/Schemas";
@@ -11,7 +11,7 @@ const defaultSortColumn: BrewerySortCol = "name";
 
 @Injectable()
 export class BreweryService {
-  constructor(@InjectModel(BrewerySchema.name) private breweryModel: Model<BreweryDocument>) {}
+  constructor(@InjectModel(BrweeryModel.name) private breweryModel: Model<BreweryDocument>) {}
 
   async find(query: FetchSomeBreweriesDto, current: boolean): Promise<BreweryDocument[]> {
     const { sortCol, sortDir, offset, limit } = query;

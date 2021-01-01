@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto } from "src/Dto";
 import { BeerDocument } from "src/Schemas";
-import { BeerService } from "src/Services";
+import { BeerService, HistoryService } from "src/Services";
 
 @Controller("beer")
 export class BeerController {
-  constructor(private beerService: BeerService) {}
+  constructor(private beerService: BeerService, private historyService: HistoryService) {}
 
   @Get()
   async find(@Query() query: FetchSomeBeerDto): Promise<BeerDocument[]> {
@@ -24,11 +24,18 @@ export class BeerController {
 
   @Post()
   async create(@Body() createBeerDto: CreateBeerDto) {
-    return this.beerService.create(createBeerDto);
+    return this.beerService.create(createBeerDto).then((res) => {
+      return this.historyService.create({ beerId: res._id, changeAmt: res.quantity.toString(), date: new Date().toDateString() }).then(() => res);
+    });
   }
 
   @Put(":id")
   async update(@Param("id") id: string, @Body() updateBeerDto: UpdateBeerDto) {
-    return this.beerService.update(id, updateBeerDto);
+    const originalAmt = (await this.beerService.findOne(id)).quantity;
+    return this.beerService.update(id, updateBeerDto).then((res) => {
+      return this.historyService
+        .create({ beerId: res._id, changeAmt: (updateBeerDto.quantity - originalAmt).toString(), date: new Date().toDateString() })
+        .then(() => res);
+    });
   }
 }
