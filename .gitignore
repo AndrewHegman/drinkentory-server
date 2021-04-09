@@ -10,3 +10,5 @@ dist/**/*
 _cacache
 _locks
 _logs
+
+anonymous-cli-metrics.json
