@@ -1,12 +1,14 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { CreateBeerDto, FetchSomeBeerDto, UpdateBeerDto } from "src/Dto";
 import { BeerDocument } from "src/Schemas";
 import { BeerService, HistoryService } from "src/Services";
+import { JwtAuthGuard } from "src/Guards/jwt-auth.guard";
 
 @Controller("beer")
 export class BeerController {
   constructor(private beerService: BeerService, private historyService: HistoryService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async find(@Query() query: FetchSomeBeerDto): Promise<BeerDocument[]> {
     return this.beerService.find(query, false);

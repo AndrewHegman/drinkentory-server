@@ -3,3 +3,4 @@ export { BreweryModule } from "./brewery.module";
 export { StyleModule } from "./style.module";
 export { PlaceModule } from "./place.module";
 export { HistoryModule } from "./history.module";
+export { AuthModule } from "./auth.module";
