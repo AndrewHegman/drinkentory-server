@@ -5,6 +5,8 @@ import { BeerModule, BreweryModule, StyleModule, PlaceModule, HistoryModule, Aut
 import * as dotenv from "dotenv";
 import { JwtModule } from "@nestjs/jwt";
 import { UsersModule } from "./users.module";
+import { JwtAuthGuard } from "src/Guards/jwt-auth.guard";
+import { APP_GUARD } from "@nestjs/core";
 
 dotenv.config();
 
@@ -21,6 +23,12 @@ const mongoDbUri = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DAT
     UsersModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(mongoDbUri),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AppModule {}

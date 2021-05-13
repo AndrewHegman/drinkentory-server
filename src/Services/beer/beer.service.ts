@@ -46,6 +46,28 @@ export class BeerService {
       updatedDocument.historicQuantity = updateBeerDto.historicQuantity;
     }
 
-    return this.beerModel.findByIdAndUpdate(id, updatedDocument, { new: true }).populate(beerExpandFields).exec();
+    return this.beerModel.findByIdAndUpdate(id, updatedDocument).populate(beerExpandFields).orFail().exec();
+  }
+
+  async increment(id: string) {
+    return this.beerModel
+      .findById(id)
+      .orFail()
+      .then((oldDoc) => {
+        return this.beerModel
+          .findByIdAndUpdate(id, { $inc: { quantity: 1, historicQuantity: 1 } }, { new: true })
+          .populate(beerExpandFields)
+          .orFail()
+          .exec()
+          .then((newDoc) => ({ newDoc, oldDoc }));
+      });
+  }
+
+  async decrement(id: string) {
+    return this.beerModel
+      .findByIdAndUpdate(id, { $inc: { quantity: -1 } })
+      .populate(beerExpandFields)
+      .orFail()
+      .exec();
   }
 }

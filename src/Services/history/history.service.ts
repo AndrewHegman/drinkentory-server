@@ -29,6 +29,7 @@ export class HistoryService {
   // }
 
   async create(addHistoryDto: AddHistoryDto) {
+    console.log(addHistoryDto);
     const newBeer = new this.historyModel(addHistoryDto);
     return newBeer.save();
   }

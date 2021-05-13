@@ -16,7 +16,6 @@ export class PlaceService {
     const { sortCol } = query;
 
     const _sortCol = processSortColumnAndDirection<PlaceSortCol>(defaultSortColumn, null, defaultSortColumn);
-    console.log(placeExpandFields);
     return this.placeModel.find().sort(_sortCol).populate(placeExpandFields).exec();
   }
 
